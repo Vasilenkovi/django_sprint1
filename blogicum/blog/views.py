@@ -47,13 +47,13 @@ posts = [
 
 def index(request):
 
-    return render(request, 'blog/index.html', {'posts': posts})
+    return render(request, 'blog/index.html', {'posts': posts[-1::-1]})
 
 
 def post_detail(request, post_id):
     posts_dict = {i['id']: i for i in posts}
-    if post_id in posts_dict.keys():
-        return render(request, 'blog/detail.html', posts_dict[post_id])
+    if post_id in posts_dict.keys() and not(len(posts_dict[post_id])== 0):
+        return render(request, 'blog/detail.html', {'post': posts_dict[post_id]})
     else:
         raise Http404(f'Post {post_id} doesn\'t exist. Praise the omnissiah!')
 
